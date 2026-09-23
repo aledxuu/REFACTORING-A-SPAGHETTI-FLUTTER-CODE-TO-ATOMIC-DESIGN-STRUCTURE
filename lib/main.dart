@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
-import 'ui/pages/home_page.dart';
+import 'ui/pages/catalog_page.dart';
 
 void main() {
-  runApp(const AtomicDesignDemoApp());
+  runApp(const MyApp());
 }
 
-class AtomicDesignDemoApp extends StatelessWidget {
-  const AtomicDesignDemoApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Atomic Design Demo',
-      theme: ThemeData(colorSchemeSeed: Colors.deepPurple, useMaterial3: true),
-      home: const HomePage(),
+      title: "Messy Catalog",
+      theme: ThemeData(
+        primarySwatch: Colors.indigo,
+        useMaterial3: true,
+      ),
+      debugShowCheckedModeBanner: false,
+      home: const CatalogPage(),
     );
   }
 }

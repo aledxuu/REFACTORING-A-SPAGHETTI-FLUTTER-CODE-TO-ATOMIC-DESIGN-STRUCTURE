@@ -1,37 +1,56 @@
-// ORGANISM: a recognizable component composed of molecules + atoms.
-// Takes a Product and a callback — never fetches data itself.
 import 'package:flutter/material.dart';
-import '../../models/product.dart';
-import '../atoms/app_button.dart';
-import '../atoms/app_text.dart';
-import '../molecules/price_label.dart';
+import '../atoms/product_icon.dart';
+import '../atoms/delete_button.dart';
+import '../molecules/product_info.dart';
+import '../molecules/add_to_cart_button.dart';
 
 class ProductCard extends StatelessWidget {
-  final Product product;
-  final VoidCallback onAddToCart;
+  final Map<String, dynamic> product;
+  final VoidCallback onDelete;
 
   const ProductCard({
     super.key,
     required this.product,
-    required this.onAddToCart,
+    required this.onDelete,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(product.icon, size: 48),
-            const SizedBox(height: 8),
-            AppText(product.name, style: AppTextStyle.body),
-            PriceLabel(product.price),
-            const SizedBox(height: 8),
-            AppButton(label: 'Add to cart', onPressed: onAddToCart),
-          ],
-        ),
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: Row(
+        children: [
+          ProductIcon(icon: product["icon"]),
+          const SizedBox(width: 12),
+          Expanded(
+            child: ProductInfo(
+              name: product["name"],
+              category: product["category"],
+              price: product["price"],
+            ),
+          ),
+          Column(
+            children: [
+              AddToCartButton(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                        content: Text(
+                            "Added ${product["name"]} to cart")),
+                  );
+                },
+              ),
+              const SizedBox(height: 6),
+              DeleteButton(onPressed: onDelete),
+            ],
+          )
+        ],
       ),
     );
   }
